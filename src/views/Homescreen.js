@@ -1,26 +1,49 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/products";
+
+import List from "../components/List";
+//import * as actions from "../store/actions/products";
+import { fetchProducts } from "../store/actions/products";
 
 class Homescreen extends React.PureComponent {
+  state = {
+    _page: 1
+  };
+
+  componentDidMount() {
+    this.props.fetchProducts({ _page: 1, _limit: 9 });
+  }
+
+  componentDidUpdate(prevProps) {
+    let {
+        products: { data: newData }
+      } = this.props,
+      {
+        products: { data: prevData }
+      } = prevProps;
+
+    if (newData.length > prevData.length && newData !== prevData.length) {
+      this.setState({
+        _page: this.state._page + 1
+      });
+    }
+  }
+
+  fetchMoreProducts = () => {
+    let {
+      products: { hasEndBeenReached, fetchingMore }
+    } = this.props;
+
+    if (!hasEndBeenReached && !fetchingMore) {
+      let { _page } = this.state;
+      this.props.fetchProducts({ _page, _limit: 9 }, true);
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
-        <button
-          onClick={() => {
-            console.log(this.props.products);
-          }}
-        >
-          Get State
-        </button>
-        <button onClick={() => console.log(this.props.actions1())}>oya</button>
-        <button
-          onClick={() => {
-            console.log(this.props.actions2());
-          }}
-        >
-          oya2
-        </button>
+        <List onFetchMore={this.fetchMoreProducts} />
       </React.Fragment>
     );
   }
@@ -31,8 +54,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions1: () => dispatch(actions.fetchProductsPending()),
-  actions2: () => dispatch(actions.fetchProductsSucceed())
+  fetchProducts: (data, params) => dispatch(fetchProducts(data, params))
 });
 
 export default connect(
