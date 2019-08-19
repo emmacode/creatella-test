@@ -63,13 +63,23 @@ export const fetchProductsFulfilled = (payload, isFetchingMore) => ({
 
 function loadMoreData(params) {
   console.log("fetching");
-  API({
-    params: { ...params, _page: params._page + 1 }
-  }).then(_response => {
-    CACHED_STORE[
-      getQueryParams({ ...params, _page: params._page + 1 })
-    ] = _response;
-  });
+
+  fetch(
+    `${endpoints.api.baseURL}${endpoints.api.products}${getQueryParams(
+      params
+    )}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    },
+    { params: { ...params, _page: params._page + 1 } }
+  )
+    .then(res => res.json())
+    .then(_response => {
+      CACHED_STORE[
+        getQueryParams({ ...params, _page: params._page + 1 })
+      ] = _response;
+    });
 }
 
 export const fetchProducts = (params, isFetchingMore) => dispatch => {

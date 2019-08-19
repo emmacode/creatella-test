@@ -54,7 +54,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: (data, params) => dispatch(fetchProducts(data, params))
+  fetchProducts: (params, isFetchingMore) =>
+    dispatch(fetchProducts(params, isFetchingMore))
 });
 
 export default connect(

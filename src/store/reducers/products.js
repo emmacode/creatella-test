@@ -1,4 +1,5 @@
 import * as Types from "../actions/types";
+import { insertAdvert } from "../../utils";
 
 const initialState = {
   loading: false,
@@ -17,7 +18,7 @@ const products = (state = initialState, action) => {
         error: null,
         fetchingMore: false,
         hasEndBeenReached: false,
-        data: state.data || []
+        data: state.data
       };
 
     case Types.FETCH_PRODUCTS_ERROR:
@@ -31,13 +32,14 @@ const products = (state = initialState, action) => {
       };
 
     case Types.FETCH_PRODUCTS_FULFILLED:
+      let { data: _data } = insertAdvert(state, action, true);
       return {
         ...state,
         loading: false,
         error: null,
         fetchingMore: false,
         hasEndBeenReached: action.payload.length === 0 ? true : false,
-        data: action.payload
+        data: _data
       };
 
     case Types.FETCH_MORE_PRODUCTS_PENDING:
@@ -51,13 +53,14 @@ const products = (state = initialState, action) => {
       };
 
     case Types.FETCH_MORE_PRODUCTS_FULFILLED:
+      let { data } = insertAdvert(state, action);
       return {
         ...state,
         loading: false,
         error: null,
         fetchingMore: false,
         hasEndBeenReached: action.payload.length === 0 ? true : false,
-        data: action.payload
+        data
       };
     default:
       return state;
