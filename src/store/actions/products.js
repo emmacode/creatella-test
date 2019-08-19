@@ -2,6 +2,22 @@ import * as Types from "./types";
 import * as endpoints from "../../Services/Endpoints";
 import { getQueryParams } from "../../utils";
 
+const API = ({ config, params }) => {
+  let _config = config || {},
+    header = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      ..._config
+    };
+
+  return fetch(
+    `${endpoints.api.baseURL}${endpoints.api.products}${getQueryParams(
+      params
+    )}`,
+    header
+  ).then(response => response.json());
+};
+
 let CACHED_STORE = {};
 
 //const BASE_URL = "http://locahost:3000/products";
@@ -32,6 +48,11 @@ export const fetchProductsPending = isFetchingMore => ({
     : Types.FETCH_PRODUCTS_PENDING
 });
 
+export const fetchProductsError = error => ({
+  type: Types.FETCH_PRODUCTS_ERROR,
+  error
+});
+
 export const fetchProductsFulfilled = (payload, isFetchingMore) => ({
   type: isFetchingMore
     ? Types.FETCH_MORE_PRODUCTS_FULFILLED
@@ -39,34 +60,13 @@ export const fetchProductsFulfilled = (payload, isFetchingMore) => ({
   payload
 });
 
-export const fetchProductsError = error => ({
-  type: Types.FETCH_PRODUCTS_ERROR,
-  error
-});
-
-function loadMoreData(params, dispatch) {
+function loadMoreData(params) {
   console.log("fetching");
-  fetch(
-    `${endpoints.api.baseURL}${endpoints.api.products}${getQueryParams(
-      params
-    )}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    },
-    { params: { ...params, _page: params._page + 1 } }
-  )
-    .then(res => res.json())
-    .then(data =>
-      dispatch({
-        payload: data
-      })
-    )
-    .then(_response => {
-      CACHED_STORE[
-        getQueryParams({ ...params, _page: params._page + 1 })
-      ] = _response;
-    });
+  API({ params: { ...params, _page: params._page + 1 } }).then(_response => {
+    CACHED_STORE[
+      getQueryParams({ ...params, _page: params._page + 1 })
+    ] = _response;
+  });
 }
 
 export const fetchProducts = (params, isFetchingMore) => dispatch => {
@@ -83,19 +83,10 @@ export const fetchProducts = (params, isFetchingMore) => dispatch => {
     loadMoreData(params);
   } else {
     //return API({ params })
-    return fetch(
-      `${endpoints.api.baseURL}${endpoints.api.products}${getQueryParams(
-        params
-      )}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
-      },
-      { params }
-    )
+    return API({ params })
       .then(data => {
         loadMoreData(params);
-        dispatch(fetchProductsFulfilled({ payload: data }, isFetchingMore));
+        dispatch(fetchProductsFulfilled(data, isFetchingMore));
       })
       .catch(error => dispatch(fetchProductsError(error)));
   }
