@@ -19,30 +19,33 @@ class List extends React.PureComponent {
     let {
       products: { data, hasEndBeenReached, fetchingMore }
     } = this.props;
-    let productsItem = data.map((product, i) => {
-      return (
-        <div key={i}>
-          <h3>{product.id}</h3>
-          <h3>{product.size}</h3>
-          <h3>{product.price}</h3>
-          <h3>{product.face}</h3>
-          <h3>{product.date}</h3>
-        </div>
-      );
-    });
+    // let productsItem = data.map((product, i) => {
+    //   return (
+    //     <div key={i}>
+    //       <h3>{product.id}</h3>
+    //       <h3>{product.size}</h3>
+    //       <h3>{product.price}</h3>
+    //       <h3>{product.face}</h3>
+    //       <h3>{product.date}</h3>
+    //     </div>
+    //   );
+    // });
 
     return (
       <React.Fragment>
         <div>
-          {/* {data.map((product, i) => {
+          {data.map((product, i) => {
             return (
               <div key={i}>
                 <h3>{product.id}</h3>
-                <h4>{product.face}</h4>
+                <h3>{product.size}</h3>
+                <h3>{product.price}</h3>
+                <h3>{product.face}</h3>
+                <h3>{product.date}</h3>
               </div>
             );
-          })} */}
-          {productsItem}
+          })}
+          {/* {productsItem} */}
         </div>
         {fetchingMore && <span>loading...</span>}
         {hasEndBeenReached && <span>End of catalogue</span>}

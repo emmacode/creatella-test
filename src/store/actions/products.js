@@ -1,6 +1,7 @@
 import * as Types from "./types";
 import * as endpoints from "../../Services/Endpoints";
 import { getQueryParams } from "../../utils";
+//import API from "../../Services/Api.services";
 
 const API = ({ config, params }) => {
   let _config = config || {},
@@ -62,7 +63,9 @@ export const fetchProductsFulfilled = (payload, isFetchingMore) => ({
 
 function loadMoreData(params) {
   console.log("fetching");
-  API({ params: { ...params, _page: params._page + 1 } }).then(_response => {
+  API({
+    params: { ...params, _page: params._page + 1 }
+  }).then(_response => {
     CACHED_STORE[
       getQueryParams({ ...params, _page: params._page + 1 })
     ] = _response;
@@ -79,9 +82,11 @@ export const fetchProducts = (params, isFetchingMore) => dispatch => {
   //check if the query has been loaded preemptively and load from cached store if true
   //else attempt to send a query to the API
   if (key in CACHED_STORE) {
+    console.log("1");
     dispatch(fetchProductsFulfilled(CACHED_STORE[key], isFetchingMore));
     loadMoreData(params);
   } else {
+    console.log("2");
     //return API({ params })
     return API({ params })
       .then(data => {
