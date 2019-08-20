@@ -1,9 +1,24 @@
 import React from "react";
+import { connect } from "react-redux";
 
 class Cart extends React.PureComponent {
   render() {
-    return <div>i am cart</div>;
+    let {
+      items: { addedItems }
+    } = this.props;
+    let addedItem = addedItems.length ? (
+      addedItems.map(item => {
+        return <h1>{item.id}</h1>;
+      })
+    ) : (
+      <p>Nothing.</p>
+    );
+    return <div>{addedItem}</div>;
   }
 }
 
-export default Cart;
+const mapStateToProps = state => ({
+  items: state.cart
+});
+
+export default connect(mapStateToProps)(Cart);

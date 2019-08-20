@@ -6,7 +6,8 @@ const initialState = {
   error: null,
   fetchingMore: false,
   hasEndBeenReached: false,
-  data: []
+  data: [],
+  addedItems: []
 };
 
 const products = (state = initialState, action) => {

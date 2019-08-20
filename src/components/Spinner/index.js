@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import "./index.css";
+
 class Spinner extends React.PureComponent {
   state = {
     visible: false
@@ -19,7 +21,11 @@ class Spinner extends React.PureComponent {
   }
 
   render() {
-    return this.state.visible ? <div>yah am loading man...</div> : null;
+    return this.state.visible ? (
+      <div className="spinner-container d-flex align-items-center justify-content-center">
+        <div className="circular-spinner" />
+      </div>
+    ) : null;
   }
 }
 

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { getDate } from "../../utils";
+//import * as actions from "../../store/actions/cart";
 import "./index.css";
 
 class List extends React.PureComponent {
@@ -18,6 +19,14 @@ class List extends React.PureComponent {
     };
   }
 
+  _handleAdd = id => {
+    this.props.addToCart(id);
+  };
+
+  _handleRemove = id => {
+    this.props.removeItem(id);
+  };
+
   render() {
     let {
       products: { data, hasEndBeenReached, fetchingMore }
@@ -25,13 +34,27 @@ class List extends React.PureComponent {
 
     return (
       <React.Fragment>
-        <span className="list-item__title">You are viewing 9 faces</span>
         <div className="d-flex flex-wrap">
           {data.map((product, i) => {
             return (
               <div key={i} className="d-flex flex-column list-item">
                 <div className="d-flex justify-content-between align-items-center">
-                  {product.id}
+                  <span className="list-item__title">{product.id}</span>
+                  {/* {this.props.cart === -1 ? (
+                    <i
+                      className="mdi mdi-plus-circle"
+                      onClick={() => {
+                        this._handleAdd(product.id);
+                      }}
+                    />
+                  ) : (
+                    <i
+                      className="mdi mdi-minus-circle"
+                      onClick={() => {
+                        this._handleRemove(product.id);
+                      }}
+                    />
+                  )} */}
                   <i className="mdi mdi-plus" />
                 </div>
                 <span className="list-item__size">
@@ -63,8 +86,16 @@ class List extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  products: state.products,
-  cart: state.cart
+  products: state.products
+  // cart: state.cart
 });
 
-export default connect(mapStateToProps)(List);
+// const mapDispatchToProps = dispatch => ({
+//   addToCart: id => dispatch(actions.addToCart(id)),
+//   removeItem: id => dispatch(actions.removeItem(id))
+// });
+
+export default connect(
+  mapStateToProps
+  // mapDispatchToProps
+)(List);
