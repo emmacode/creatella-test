@@ -1,0 +1,47 @@
+.main-header-container {
+  position: fixed;
+  width: 100%;
+  margin-bottom: 90px;
+}
+
+.main-header {
+  height: 64px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.14);
+  padding: 10px;
+  color: rgba(0, 0, 0, 0.5) !important;
+  background-color: #fff;
+  width: 100%;
+  font-family: inherit;
+  font-size: 22px !important;
+}
+
+.main-header > div {
+  margin-left: 40px;
+}
+
+.main-header__title-name {
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.main-header__title-face {
+  font-weight: 300;
+}
+
+.main-header__cart {
+  margin-right: 10px;
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.main-header__cart-count {
+  position: absolute;
+  margin-left: 0px;
+  background: #f44336;
+  color: #fff;
+  margin-left: 10px;
+  font-weight: 700;
+  width: 20px;
+  font-size: 12px;
+  height: 20px;
+  border-radius: 50%;
+}

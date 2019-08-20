@@ -5,8 +5,8 @@ import thunk from "redux-thunk";
 
 import "./App.css";
 import rootReducer from "./store/reducers/index";
-import Homescreen from "./views/Homescreen";
-import Spinner from "./components/Spinner";
+import Root from "./Root";
+import Routes from "./Routes";
 
 const store = createStore(
   rootReducer,
@@ -19,8 +19,9 @@ const store = createStore(
 function App() {
   return (
     <Provider store={store}>
-      <Spinner />
-      <Homescreen />
+      <Root>
+        <Routes />
+      </Root>
     </Provider>
   );
 }

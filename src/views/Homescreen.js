@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import List from "../components/List";
+import "./index.css";
 //import * as actions from "../store/actions/products";
 import { fetchProducts } from "../store/actions/products";
 
@@ -29,6 +30,10 @@ class Homescreen extends React.PureComponent {
     }
   }
 
+  /**
+   *
+   */
+
   fetchMoreProducts = () => {
     let {
       products: { hasEndBeenReached, fetchingMore }
@@ -42,9 +47,11 @@ class Homescreen extends React.PureComponent {
 
   render() {
     return (
-      <React.Fragment>
-        <List onFetchMore={this.fetchMoreProducts} />
-      </React.Fragment>
+      <div className="container-fluid">
+        <div className="d-flex flex-column list-container">
+          <List onFetchMore={this.fetchMoreProducts} />
+        </div>
+      </div>
     );
   }
 }

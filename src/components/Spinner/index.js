@@ -19,7 +19,7 @@ class Spinner extends React.PureComponent {
   }
 
   render() {
-    return this.state.visible ? <div>loading...</div> : null;
+    return this.state.visible ? <div>yah am loading man...</div> : null;
   }
 }
 
