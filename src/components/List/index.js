@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { getDate } from "../../utils";
-//import * as actions from "../../store/actions/cart";
+import * as actions from "../../store/actions/cart";
 import "./index.css";
 
 class List extends React.PureComponent {
@@ -12,15 +12,26 @@ class List extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.body.onscroll = () => {
+    // this.loadMoreItems();
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        console.log("am scrolling");
+        this.props.onFetchMore();
+        console.log("here");
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    window.addEventListener("scroll", () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         this.props.onFetchMore();
       }
-    };
+    });
   }
 
-  _handleAdd = id => {
-    this.props.addToCart(id);
+  _handleAdd = data => {
+    this.props.addToCart(data);
   };
 
   _handleRemove = id => {
@@ -32,30 +43,36 @@ class List extends React.PureComponent {
       products: { data, hasEndBeenReached, fetchingMore }
     } = this.props;
 
+    let {
+      cart: { addedItems }
+    } = this.props;
+
     return (
       <React.Fragment>
         <div className="d-flex flex-wrap">
+          {" "}
+          {console.log(this.props.cart, "jon")}
           {data.map((product, i) => {
             return (
               <div key={i} className="d-flex flex-column list-item">
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="list-item__title">{product.id}</span>
-                  {/* {this.props.cart === -1 ? (
-                    <i
-                      className="mdi mdi-plus-circle"
-                      onClick={() => {
-                        this._handleAdd(product.id);
-                      }}
-                    />
-                  ) : (
+                  {addedItems.filter(item => item.id === product.id).length >
+                  0 ? (
                     <i
                       className="mdi mdi-minus-circle"
                       onClick={() => {
                         this._handleRemove(product.id);
                       }}
                     />
-                  )} */}
-                  <i className="mdi mdi-plus" />
+                  ) : (
+                    <i
+                      className="mdi mdi-plus-circle"
+                      onClick={() => {
+                        this._handleAdd(product);
+                      }}
+                    />
+                  )}
                 </div>
                 <span className="list-item__size">
                   Available size ({product.size}px)
@@ -86,16 +103,16 @@ class List extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  products: state.products
-  // cart: state.cart
+  products: state.products,
+  cart: state.cart
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addToCart: id => dispatch(actions.addToCart(id)),
-//   removeItem: id => dispatch(actions.removeItem(id))
-// });
+const mapDispatchToProps = dispatch => ({
+  addToCart: id => dispatch(actions.addToCart(id)),
+  removeItem: id => dispatch(actions.removeItem(id))
+});
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(List);

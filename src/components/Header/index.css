@@ -13,6 +13,11 @@
   width: 100%;
   font-family: inherit;
   font-size: 22px !important;
+  margin: 0 !important;
+}
+
+.main-header > div > .main-header__link {
+  text-decoration: none !important;
 }
 
 .main-header > div {

@@ -10,16 +10,16 @@ class Header extends React.PureComponent {
       <div className="d-flex row main-header-container">
         <div className="d-flex main-header justify-content-between align-items-center">
           <div className="d-flex">
-            <Link to="/">
+            <Link to="/" className="main-header__link">
               <span className="main-header__title-name">
                 Creatella <span className="main-header__title-face">Face</span>
               </span>
             </Link>
           </div>
           <Link to="/cart" className="main-header__cart right">
-            {this.props.cart.length > 0 && (
+            {this.props.cart.addedItems.length > 0 && (
               <div className="d-flex justify-content-center align-items-center main-header__cart-count">
-                {this.props.cart.length}
+                {this.props.cart.addedItems.length}
               </div>
             )}
             <i className="mdi mdi-cart" />

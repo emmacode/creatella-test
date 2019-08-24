@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import List from "../components/List";
+import List from "../../components/List";
 import "./index.css";
 //import * as actions from "../store/actions/products";
-import { fetchProducts } from "../store/actions/products";
+import { fetchProducts } from "../../store/actions/products";
 
 class Homescreen extends React.PureComponent {
   state = {
@@ -48,7 +48,7 @@ class Homescreen extends React.PureComponent {
   render() {
     return (
       <div className="container-fluid">
-        <div className="d-flex flex-column list-container">
+        <div className="list-container">
           <List onFetchMore={this.fetchMoreProducts} />
         </div>
       </div>
