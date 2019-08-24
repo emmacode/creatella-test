@@ -1,0 +1,20 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "npm run start:server"
+    }
+  ],
+  "env": {
+  },
+  "formation": {
+  },
+  "name": "creatella-test",
+  "scripts": {
+    "postdeploy": "yarn start",
+    "pr-predestroy": "yarn stop"
+  },
+  "stack": "heroku-18"
+}
