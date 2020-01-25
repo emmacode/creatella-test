@@ -8,7 +8,7 @@ This is an ecommerce site, where you can buy all sorts of ascii faces like `(ノ
 
 This application is prepackaged with the server and the client code residing in different folders. Follow the process below to run the application
 
-- Run: `$ git clone https://github.com/gbenga504/creatella-test.git`
+- Run: `$ git clone https://github.com/emmacode/creatella-test.git`
 - Run: `$ npm install`
 - Run: `$ npm run start:server`
 - Run: `$ npm run start:react-app`
